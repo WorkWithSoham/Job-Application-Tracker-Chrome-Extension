@@ -1,0 +1,17 @@
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: postgres.Dockerfile
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_DB: jobext
+      POSTGRES_USER: soham
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "8000:5432"
+    restart: unless-stopped
