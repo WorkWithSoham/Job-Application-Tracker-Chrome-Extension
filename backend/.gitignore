@@ -34,4 +34,4 @@ build/
 
 ### Project Data ###
 postgres-data/
-src/main/java/dbConnection.properties
+dbConnection.properties
