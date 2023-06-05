@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public class JobExtProperties {
 
-    String FilePath = "/Users/sohamsantoshtembe/Soham/Devs/Projects/job-ext/backend/src/main/java/Database/dbConnection.properties";
+    String FilePath = "dbConnection.properties";
 
     Properties props = new Properties();
     FileInputStream inputStream = new FileInputStream(FilePath);

@@ -34,4 +34,4 @@ build/
 
 ### Project Data ###
 postgres-data/
-
+dbConnection.properties
