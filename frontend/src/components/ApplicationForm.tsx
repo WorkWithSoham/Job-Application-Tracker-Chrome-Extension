@@ -6,18 +6,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 export const ApplicationForm = () => {
-	const jobDescription: string = `Minimum qualifications:
-
-- Bachelor’s degree or equivalent practical experience.
-- 5 years of experience with software development in one or more programming languages, and with data structures/algorithms.
-- 3 years of experience testing, maintaining, or launching software products, and 1 year of experience with software design and architecture.
-- 3 years of experience building software for data privacy or security (e.g., identity and access management).
-	
-Preferred qualifications:
-	
-- Master's degree or PhD in Computer Science or related technical field.
-- 1 year of experience in a technical leadership role.
-- Experience developing accessible technologies.`;
 
 	return (
 		<div>
@@ -66,17 +54,18 @@ Preferred qualifications:
 						<h5>Job Details</h5>{" "}
 					</Form.Label>
 					<Form.Control
+						className="p-2"
 						plaintext
 						readOnly
 						as="textarea"
 						style={{ fontSize: "10px", textAlign: "left", resize: "none", border: "solid 1px #dee2e6", borderRadius: "5px" }}
 						rows={7}
 						size="sm"
-						value={jobDescription}
+						value=""
 					/>
 				</Form.Group>
 
-				<Button className="mb-2" variant="primary" type="submit">
+				<Button className="mx-auto mb-2" variant="success" type="submit">
 					Save
 				</Button>
 			</Form>
