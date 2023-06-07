@@ -1,7 +1,6 @@
-package Entity;
+package backend.entity;
 
-import Database.DatabaseConnector;
-import Database.UserDatabaseObject;
+import backend.Database.UserDatabaseObject;
 import jakarta.persistence.*;
 
 @Entity
