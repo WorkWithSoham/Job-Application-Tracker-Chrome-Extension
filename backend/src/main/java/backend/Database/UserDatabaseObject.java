@@ -1,9 +1,6 @@
-package Database;
+package backend.Database;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class UserDatabaseObject extends DatabaseConnector {
 
