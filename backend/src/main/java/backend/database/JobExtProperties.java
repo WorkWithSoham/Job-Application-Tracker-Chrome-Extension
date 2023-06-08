@@ -1,4 +1,4 @@
-package backend.Database;
+package backend.database;
 
 import java.io.FileInputStream;
 import java.io.IOException;

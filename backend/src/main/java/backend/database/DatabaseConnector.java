@@ -1,4 +1,4 @@
-package backend.Database;
+package backend.database;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
