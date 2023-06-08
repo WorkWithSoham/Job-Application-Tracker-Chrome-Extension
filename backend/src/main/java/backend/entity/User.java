@@ -1,6 +1,6 @@
 package backend.entity;
 
-import backend.Database.UserDatabaseObject;
+import backend.dto.UserDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,7 +16,7 @@ public class User {
     private String last_name;
 
     @Transient
-    private final UserDatabaseObject db = new UserDatabaseObject();
+    private final UserDTO db = new UserDTO();
 
     public User() {}
 
@@ -29,7 +29,7 @@ public class User {
         return user_id;
     }
 
-    public UserDatabaseObject db() {
+    public UserDTO db() {
         return this.db;
     }
 
