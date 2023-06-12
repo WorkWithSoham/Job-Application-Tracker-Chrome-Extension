@@ -4,13 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.Map;
 
 @Entity
 @Table(name = "application", schema = "jobext")
 public class Application {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "app_id", unique = true)
     private int app_id;
     @Column(name = "user_id")
     private int user_id;
@@ -18,8 +20,9 @@ public class Application {
     private String company;
     @Column(name = "loc")
     private String location;
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private Status status;
     @Column(name = "pos")
     private String position;
     @Column(name = "jd")
@@ -30,12 +33,23 @@ public class Application {
     public Application() {
     }
 
-    public Application(String company, String location, String status, String position, String jd) {
+    public Application(Map<String, Object> application) {
+        this.user_id = (int) application.get("user_id");
+        this.company = (String) application.get("company");
+        this.location = (String) application.get("location");
+        this.status = Status.valueOf(application.get("status").toString());
+        this.position = (String) application.get("position");
+        this.jd = (String) application.get("jd");
+        this.app_date = new Date();
+    }
+
+    public Application(String company, String location, Status status, String position, String jd) {
         this.company = company;
         this.location = location;
         this.status = status;
         this.position = position;
         this.jd = jd;
+        this.app_date = new Date();
     }
 
     @Override
@@ -45,7 +59,7 @@ public class Application {
                 ", \n\tuser_id = " + user_id +
                 ", \n\tcompany = '" + company + '\'' +
                 ", \n\tlocation = '" + location + '\'' +
-                ", \n\tstatus = '" + status + '\'' +
+                ", \n\tStatus = '" + status + '\'' +
                 ", \n\tposition = '" + position + '\'' +
                 ", \n\tjd = '" + jd + '\'' +
                 ", \n\tapp_date = " + app_date +

@@ -1,6 +1,7 @@
 package backend.dao;
 
 import backend.entity.Application;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -14,6 +15,7 @@ public interface ApplicationDAO extends CrudRepository<Application, Integer> {
 
     @NotNull
     @Override
+    @Transactional
     <S extends Application> S save(@NotNull S entity);
 
     @NotNull
