@@ -5,7 +5,7 @@ import "../styles/ApplicationForm.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-import { ApplicationFormInterface } from "../utils/interfaces";
+import { ApplicationFormInterface, status } from "../utils/interfaces";
 import { ApiService } from "../utils/api.service";
 
 export const ApplicationForm = () => {
@@ -15,11 +15,12 @@ export const ApplicationForm = () => {
 		const targetValue = e.currentTarget
 		console.log(targetValue.position.value)
 		const formData: ApplicationFormInterface = {
+			user_id: 1,
 			position: targetValue.position.value,
 			location: targetValue.location.value ?? "",
 			company: targetValue.company.value,
-			remote: targetValue.remote.value ?? false,
-			status: targetValue.status.value,
+			remote: targetValue.remote.checked,
+			status: targetValue.status.value as status,
 			jd: targetValue.jd.value ?? ""
 		}
 		ApiService.addApplication(formData);
@@ -53,7 +54,7 @@ export const ApplicationForm = () => {
 				</Form.Group>
 
 				<Form.Group className="mb-1" controlId="remote">
-					<Form.Check type="checkbox" name="remote" label="Remote" />
+					<Form.Check type="checkbox" label="Remote" />
 				</Form.Group>
 
 				<Form.Group className="mb-1" controlId="status">
@@ -65,6 +66,8 @@ export const ApplicationForm = () => {
 					<option value="APPLIED">Applied</option>
 					<option value="WISHLIST">Wishlist</option>
 					<option value="INTERVIEW">Interview</option>
+					<option value="REJECT">Reject</option>
+					<option value="OFFER">Offer</option>
 				</Form.Select>
 				</Form.Group>
 

@@ -21,15 +21,12 @@ public class ApplicationController {
     @PostMapping(value = "/applications/add")
     public Map<String, Object> addApplication(@RequestBody Map<String, Object> applicationJson) {
         log.info("\nReceived a request to add application to list: \n{}", JsonHandler.toJson(applicationJson));
-
-//        try {
+        try {
         Application application = new Application(applicationJson);
-        System.out.println(application);
         applicationDAO.save(application);
-//        } catch (Exception e) {
-//            log.error("Exception occurred while saving the new application: {}", e.toString());
-//        }
-
+        } catch (Exception e) {
+            log.error("Exception occurred while saving the new application: {}", e.toString());
+        }
         return applicationJson;
     }
 }

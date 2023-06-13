@@ -33,10 +33,11 @@ public class Application {
     public Application() {
     }
 
-    public Application(Map<String, Object> application) {
+    public <T> Application(Map<String, T> application) {
+        System.out.println(application.get("remote"));
         this.user_id = (int) application.get("user_id");
         this.company = (String) application.get("company");
-        this.location = (String) application.get("location");
+        this.location = (Boolean) application.get("remote") ? "Remote" : (String) application.get("location");
         this.status = Status.valueOf(application.get("status").toString());
         this.position = (String) application.get("position");
         this.jd = (String) application.get("jd");
