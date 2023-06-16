@@ -5,7 +5,7 @@ import "../styles/ApplicationForm.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-import { ApplicationFormInterface, status } from "../utils/interfaces";
+import { Application, status } from "../utils/interfaces";
 import { ApiService } from "../utils/api.service";
 
 export const ApplicationForm = () => {
@@ -13,8 +13,7 @@ export const ApplicationForm = () => {
 	const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		const targetValue = e.currentTarget
-		console.log(targetValue.position.value)
-		const formData: ApplicationFormInterface = {
+		const formData: Application = {
 			user_id: 1,
 			position: targetValue.position.value,
 			location: targetValue.location.value ?? "",

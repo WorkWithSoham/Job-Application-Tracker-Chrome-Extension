@@ -1,23 +1,35 @@
-import { Type } from "typescript"
-import { ApiProperties } from "./api.properties"
-import { ApplicationFormInterface } from "./interfaces"
-import axios from "axios"
+import axios from "axios";
+import { ApiProperties } from "./api.properties";
+import { ApiResponse, Application } from "./interfaces";
 
 export const ApiService = {
-    addApplication: (data: ApplicationFormInterface) => {
-        apiRequest(data, ApiProperties.routes.addApplication)
-    }
-}
+	// Application Service Functions
+	getApplications: () => {
+		return apiRequest<Application>(ApiProperties.routes.getApplications);
+	},
+
+	addApplication: (data: Application) => {
+		apiRequest(ApiProperties.routes.addApplication, data);
+	},
+};
 
 const constructURL = (endpoint: String) => {
-    const host = ApiProperties.host
-    const port = ApiProperties.port
+	const host = ApiProperties.host;
+	const port = ApiProperties.port;
 
-    return `http://${host}:${port}${endpoint}`
-}
+	return `http://${host}:${port}${endpoint}`;
+};
 
-const apiRequest = async (data: Object, endpoint: String) => {
-    const url = constructURL(endpoint);
-    const response = await axios.post(url, data)
-    console.log(response.data)
-}
+const apiRequest = async <T> (endpoint: String, params?: Object) => {
+	const url = constructURL(endpoint);
+	let response: ApiResponse<T> = baseResponse;
+	if (params) {
+		response = await axios.post(url, params);
+	} else {
+		response = await axios.get(url);
+	}
+
+	return response;
+};
+
+const baseResponse = { message: "", data: [] }

@@ -1,11 +1,19 @@
-import React from "react";
-import "../styles/ApplicationList.css"
+import React, { useEffect, useState } from "react";
+import "../styles/ApplicationList.css";
 import { Table } from "react-bootstrap";
-
+import { ApiService } from "../utils/api.service";
+import { ApiResponse, Application } from "../utils/interfaces";
 
 export const ApplicationList = () => {
+	const [applications, setApplications] = useState<Application[]>([]);
 
-    
+	useEffect(() => {
+		ApiService.getApplications().then((value: ApiResponse<Application>) => {
+			if (Array.isArray(value.data)) {
+				setApplications(value.data);
+			}
+		});
+	}, []);
 
 	return (
 		<div className="p-2">
@@ -19,23 +27,16 @@ export const ApplicationList = () => {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>@mdo</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Jacob</td>
-						<td>Thornton</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td colSpan={2}>Larry the Bird</td>
-                        <td>@twitter</td>
-					</tr>
+					{applications.map((app: Application, idx: number) => {
+						return (
+							<tr>
+								<td>{idx + 1}</td>
+								<td>{app.position}</td>
+								<td>{app.company}</td>
+								<td>{app.status}</td>
+							</tr>
+						);
+					})}
 				</tbody>
 			</Table>
 		</div>

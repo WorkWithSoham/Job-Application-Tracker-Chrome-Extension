@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(originPatterns = {"*"})
@@ -18,9 +19,16 @@ public class ApplicationController {
     @Autowired
     private ApplicationDAO applicationDAO;
 
+    @GetMapping(value = "/applications")
+    public String getApplications() {
+        log.info("Request received for application list");
+        List<Application> applicationList = applicationDAO.findAll();
+        return JsonHandler.toJson(applicationList);
+    }
+
     @PostMapping(value = "/applications/add")
     public Map<String, Object> addApplication(@RequestBody Map<String, Object> applicationJson) {
-        log.info("\nReceived a request to add application to list: \n{}", JsonHandler.toJson(applicationJson));
+        log.info("\nReceived a request to create application: \n{}", JsonHandler.toJson(applicationJson));
         try {
         Application application = new Application(applicationJson);
         applicationDAO.save(application);
@@ -29,4 +37,5 @@ public class ApplicationController {
         }
         return applicationJson;
     }
+
 }
