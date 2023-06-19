@@ -4,7 +4,9 @@ import { Table } from "react-bootstrap";
 import { ApiService } from "../utils/api.service";
 import { ApiResponse, Application } from "../utils/interfaces";
 
-export const ApplicationList = () => {
+export const ApplicationList = (props: {
+	callback: (app: Application) => void;
+}) => {
 	const [applications, setApplications] = useState<Application[]>([]);
 
 	useEffect(() => {
@@ -16,8 +18,11 @@ export const ApplicationList = () => {
 	}, []);
 
 	return (
-		<div className="p-2">
-			<Table className="mt-1" size="sm" striped>
+		<div className="p-2 applicationsList">
+			<Table
+				className="mt-1"
+				striped
+			>
 				<thead>
 					<tr>
 						<th>#</th>
@@ -29,7 +34,7 @@ export const ApplicationList = () => {
 				<tbody>
 					{applications.map((app: Application, idx: number) => {
 						return (
-							<tr>
+							<tr key={idx} onClick={() => props.callback(app)}>
 								<td>{idx + 1}</td>
 								<td>{app.position}</td>
 								<td>{app.company}</td>

@@ -1,12 +1,13 @@
 export interface Application {
 	app_id?: Number;
 	user_id?: Number;
-	position: String;
-	location: String;
-	company: String;
+	position: string;
+	location: string;
+	company: string;
 	remote: Boolean;
 	status: status;
-	jd: String;
+	app_date?: string;
+	jd: string;
 }
 
 export interface ApiResponse<T> {
