@@ -19,4 +19,8 @@ thead {
     height: 500px;
 }
 
+tr:hover {
+    cursor: pointer;
+}
+
 
