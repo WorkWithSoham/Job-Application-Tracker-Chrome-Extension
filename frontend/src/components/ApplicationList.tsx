@@ -13,18 +13,25 @@ export const ApplicationList = (props: {
 	const [applications, setApplications] = useState<Application[]>([]);
 
 	useEffect(() => {
+		getApplications();
+	}, []);
+
+	const getApplications = () => {
 		ApiService.getApplications().then((value: ApiResponse<Application>) => {
 			if (Array.isArray(value.data)) {
 				setApplications(value.data);
 			}
 		});
-	}, []);
+	};
 
-	const deleteApplication = (app: Application) => {};
+	const deleteApplication = (app: Application) => {
+		ApiService.deleteApplication(app);
+		getApplications();
+	};
 
 	return (
 		<div className="p-2 applicationsList">
-			<Table className="mt-1 text-center text-small" striped>
+			<Table className="mt-1 text-center text-small applicationTable" striped>
 				<thead>
 					<tr>
 						<th>

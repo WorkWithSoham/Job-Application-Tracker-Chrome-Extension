@@ -30,11 +30,10 @@ export const ApplicationForm = () => {
 			<Paper
 				elevation={20}
 				className="m-2 mb-3 p-1"
-				component="form"
+				component="div"
 				sx={{
 					"& .MuiTextField-root": { m: 1, width: "32ch" },
-				}}
-				noValidate
+				}}	
 			>
 				<Form className="m-3 mb-2 mt-2" onSubmit={onFormSubmit}>
 					<Form.Group className="" controlId="position">

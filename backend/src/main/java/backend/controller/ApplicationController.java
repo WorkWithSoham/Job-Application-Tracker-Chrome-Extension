@@ -27,15 +27,29 @@ public class ApplicationController {
     }
 
     @PostMapping(value = "/applications/add")
-    public Map<String, Object> addApplication(@RequestBody Map<String, Object> applicationJson) {
+    public String addApplication(@RequestBody Map<String, Object> applicationJson) {
         log.info("\nReceived a request to create application: \n{}", JsonHandler.toJson(applicationJson));
         try {
-        Application application = new Application(applicationJson);
-        applicationDAO.save(application);
+            Application application = new Application(applicationJson);
+            applicationDAO.save(application);
         } catch (Exception e) {
             log.error("Exception occurred while saving the new application: {}", e.toString());
         }
-        return applicationJson;
+        return "Application saved successfully";
+    }
+
+    @PostMapping(value = "/applications/delete")
+    public String deleteApplication(@RequestBody Map<String, Object> requestJson) {
+        Integer app_id = Integer.parseInt(requestJson.get("app_id").toString());
+        log.info("Received a request to delete application with ID: {}", app_id);
+        try {
+            applicationDAO.findById(app_id);
+        } catch (Exception e) {
+            log.info("Application with ID : {} not found", app_id);
+            return "Application not found";
+        }
+        applicationDAO.deleteById(app_id);
+        return "Application successfully deleted";
     }
 
 }
