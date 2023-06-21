@@ -5,6 +5,9 @@ import { ApiResponse, Application } from "./interfaces";
 enum METHOD {
 	GET,
 	POST,
+	DELETE,
+	PUT,
+	PATCH,
 }
 
 export const ApiService = {
@@ -17,38 +20,54 @@ export const ApiService = {
 	},
 
 	addApplication: (data: Application) => {
-		console.log("requested")
+		console.log("requested");
 		apiRequest(ApiProperties.routes.addApplication, METHOD.POST, data);
 	},
 
 	deleteApplication: (data: Application) => {
-		apiRequest(ApiProperties.routes.deleteApplication, METHOD.POST, {
-			app_id: data.app_id,
-		});
+		apiRequest(
+			ApiProperties.routes.deleteApplication,
+			METHOD.DELETE,
+			undefined,
+			data.app_id?.toString()
+		);
 	},
 };
 
-const constructURL = (endpoint: String) => {
+const constructURL = (endpoint: String, pathVar?: String | Number) => {
 	const host = ApiProperties.host;
 	const port = ApiProperties.port;
-
-	return `http://${host}:${port}${endpoint}`;
+	if (pathVar === undefined) {
+		return `http://${host}:${port}${endpoint}`;
+	} else {
+		return `http://${host}:${port}${endpoint}/${pathVar}`;
+	}
 };
 
 const apiRequest = async <T>(
 	endpoint: String,
 	method: METHOD,
-	params?: Object
+	params?: Object,
+	pathVar?: String
 ) => {
-	const url = constructURL(endpoint);
+	let response: ApiResponse<T> = baseResponse;
 	const options = {
 		headers: { "Content-Type": "application/json" },
 	};
-	let response: ApiResponse<T> = baseResponse;
+	var url = "";
+
+	if (pathVar !== undefined) {
+		url = constructURL(endpoint, pathVar);
+	} else {
+		url = constructURL(endpoint);
+	}
+
 	if (method === METHOD.POST) {
 		response = await axios.post(url, params, options);
-	} else {
+	} else if (method === METHOD.GET) {
 		response = await axios.get(url);
+	} else if (method === METHOD.DELETE) {
+		response = await axios.delete(url);
 	}
 
 	return response;
