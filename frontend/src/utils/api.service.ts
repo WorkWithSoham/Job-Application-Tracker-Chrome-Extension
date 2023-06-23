@@ -73,4 +73,4 @@ const apiRequest = async <T>(
 	return response;
 };
 
-const baseResponse = {data: { Message: "", data: [] }};
+const baseResponse = {data: { msg: "", data: [] }};

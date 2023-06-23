@@ -12,7 +12,7 @@ export interface Application {
 
 export interface ApiResponse<T> {
 	data: {
-		Message: String;
+		msg: String;
 		data: T | T[];
 	};
 }

@@ -34,7 +34,7 @@ public class ApplicationController {
         log.info("Request received for application list");
         List<Application> applicationList = applicationDAO.findAll();
 
-        return new Response("Message", "Application list retrieved from DB", HttpStatus.OK, applicationList).send();
+        return new Response("msg", "Application list retrieved from DB", HttpStatus.OK, applicationList).send();
     }
 
     @GetMapping(value = "/applications/{id}")
@@ -46,10 +46,10 @@ public class ApplicationController {
         try {
             application = applicationDAO.findById(app_id).orElseThrow();
         } catch (Exception e) {
-            return new Response("Message", e.getMessage(), HttpStatus.NOT_FOUND).send();
+            return new Response("msg", e.getMessage(), HttpStatus.NOT_FOUND).send();
         }
 
-        return new Response("Message", "Application details retrieved from DB", HttpStatus.OK, application).send();
+        return new Response("msg", "Application details retrieved from DB", HttpStatus.OK, application).send();
     }
 
     @DeleteMapping(value = "/applications/delete/{id}")
@@ -60,11 +60,11 @@ public class ApplicationController {
             applicationDAO.findById(app_id);
         } catch (Exception e) {
             log.info("Application with ID : {} not found", app_id);
-            return new Response("Message", e.getMessage(), HttpStatus.NOT_FOUND).send();
+            return new Response("msg", e.getMessage(), HttpStatus.NOT_FOUND).send();
         }
         applicationDAO.deleteById(app_id);
 
-        return new Response("Message", "Application successfully deleted", HttpStatus.OK).send();
+        return new Response("msg", "Application successfully deleted", HttpStatus.OK).send();
     }
 
     @PostMapping(value = "/applications/add")
@@ -75,10 +75,10 @@ public class ApplicationController {
             applicationDAO.save(application);
         } catch (Exception e) {
             log.error("Exception occurred while saving the new application: {}", e.toString());
-            return new Response("Message", e.getMessage(), HttpStatus.BAD_REQUEST).send();
+            return new Response("msg", e.getMessage(), HttpStatus.BAD_REQUEST).send();
         }
 
-        return new Response("Message", "Application successfully saved", HttpStatus.OK).send();
+        return new Response("msg", "Application successfully saved", HttpStatus.OK).send();
     }
 
 }
