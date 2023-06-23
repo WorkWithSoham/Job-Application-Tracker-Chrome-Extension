@@ -16,4 +16,8 @@ public class JsonHandler {
     public static <T> String toJson(List<T> list) {
         return gson.toJson(list);
     }
+
+    public static <T> String toJson(T value) {
+        return gson.toJson(value);
+    }
 }

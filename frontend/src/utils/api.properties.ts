@@ -5,6 +5,7 @@ export const ApiProperties = {
     routes: {
         getApplications: "/applications",
         getApplicationById: "/applications/{id}",
-        addApplication: "/applications/add"
+        addApplication: "/applications/add",
+        deleteApplication: "/applications/delete"
     }
 }
