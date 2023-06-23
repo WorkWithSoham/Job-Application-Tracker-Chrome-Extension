@@ -18,8 +18,8 @@ export const ApplicationList = (props: {
 
 	const getApplications = () => {
 		ApiService.getApplications().then((value: ApiResponse<Application>) => {
-			if (Array.isArray(value.data)) {
-				setApplications(value.data);
+			if (Array.isArray(value.data.data)) {
+				setApplications(value.data.data);
 			}
 		});
 	};

@@ -11,8 +11,10 @@ export interface Application {
 }
 
 export interface ApiResponse<T> {
-	message: String;
-	data: T | T[];
+	data: {
+		Message: String;
+		data: T | T[];
+	};
 }
 
 export enum status {

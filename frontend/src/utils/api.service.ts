@@ -69,8 +69,8 @@ const apiRequest = async <T>(
 	} else if (method === METHOD.DELETE) {
 		response = await axios.delete(url);
 	}
-
+	
 	return response;
 };
 
-const baseResponse = { message: "", data: [] };
+const baseResponse = {data: { Message: "", data: [] }};
