@@ -52,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.241",
     "copy-webpack-plugin": "^11.0.0",
     "html-webpack-plugin": "^5.5.3",
     "style-loader": "^3.3.3",

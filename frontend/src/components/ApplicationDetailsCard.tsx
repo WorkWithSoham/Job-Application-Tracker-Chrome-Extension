@@ -94,7 +94,7 @@ export const ApplicationDetailsCard = (props: {
 				<TextField
 					required
 					id="outlined-required"
-					label="Job Description"
+					label="Job Link"
 					defaultValue={props.application?.jd}
 					InputProps={{
 						readOnly: readOnly,

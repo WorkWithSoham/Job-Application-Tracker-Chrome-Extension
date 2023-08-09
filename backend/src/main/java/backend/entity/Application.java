@@ -12,7 +12,7 @@ import java.util.Map;
 public class Application {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "app_id", unique = true)
     private int app_id;
 

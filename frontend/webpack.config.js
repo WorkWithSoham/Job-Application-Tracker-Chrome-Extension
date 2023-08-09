@@ -4,7 +4,10 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: "production",
-	entry: "./src/",
+	entry: {
+		popup: "./src/",
+		content_script: "./src/contentScript/helper.ts"
+	},
 	module: {
 		rules: [
 			{
@@ -29,6 +32,7 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: "./public/index.html",
 			filename: "popup.html",
+			chunks: ['popup']
 		}),
 		new CopyPlugin({
 			patterns: [

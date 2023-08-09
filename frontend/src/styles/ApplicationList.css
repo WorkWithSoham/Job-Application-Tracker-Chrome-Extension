@@ -3,7 +3,7 @@
     font-size: small;
     max-height: 463px;
     overflow-y: scroll;
-    width: fit-content;
+    /* width: fit-content; */
     margin: auto;
     border-radius: 5px;
     box-shadow:
@@ -20,7 +20,7 @@ thead {
 }
 
 .applicationsList {
-    height: 500px;
+    height: 424px;
 }
 
 tr:hover {

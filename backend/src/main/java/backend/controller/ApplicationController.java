@@ -22,6 +22,7 @@ import java.util.Map;
                 RequestMethod.PATCH
         })
 @RestController
+@RequestMapping("/api/applications")
 public class ApplicationController {
 
     public static final Logger log = LoggerFactory.getLogger(ApplicationController.class);
@@ -29,7 +30,7 @@ public class ApplicationController {
     @Autowired
     private ApplicationDAO applicationDAO;
 
-    @GetMapping(value = "/applications")
+    @GetMapping(value = "/")
     public ResponseEntity<Object> getApplications() {
         log.info("Request received for application list");
         List<Application> applicationList = applicationDAO.findAll();
@@ -37,7 +38,7 @@ public class ApplicationController {
         return new Response("msg", "Application list retrieved from DB", HttpStatus.OK, applicationList).send();
     }
 
-    @GetMapping(value = "/applications/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Object> getApplications(@PathVariable String id) {
         Application application;
 
@@ -52,7 +53,7 @@ public class ApplicationController {
         return new Response("msg", "Application details retrieved from DB", HttpStatus.OK, application).send();
     }
 
-    @DeleteMapping(value = "/applications/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<Object> deleteApplication(@PathVariable String id) {
         Integer app_id = Integer.parseInt(id);
         log.info("Received a request to delete application with ID: {}", id);
@@ -67,7 +68,7 @@ public class ApplicationController {
         return new Response("msg", "Application successfully deleted", HttpStatus.OK).send();
     }
 
-    @PostMapping(value = "/applications/add")
+    @PostMapping(value = "/add")
     public ResponseEntity<Object> addApplication(@RequestBody Map<String, Object> applicationJson) {
         try {
             Application application = new Application(applicationJson);
