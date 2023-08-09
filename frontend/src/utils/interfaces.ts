@@ -10,10 +10,26 @@ export interface Application {
 	jd: string;
 }
 
+export interface User {
+	user_id?: Number;
+	full_name?: string;
+	username?: string;
+	email: string;
+	password?: string;
+}
+
+export interface ApiRequestData<T> {
+	data: T | T[];
+	token?: string
+}
+
 export interface ApiResponse<T> {
 	data: {
-		Message: String;
-		data: T | T[];
+		msg: String;
+		data?: {
+			entity: T | T[];
+			token?: string;
+		};
 	};
 }
 

@@ -12,7 +12,6 @@ import java.util.Optional;
 @Repository
 public interface UserDAO extends CrudRepository<User, Integer> {
 
-
     @NotNull
     @Override
     <S extends User> S save(@NotNull S entity);
@@ -21,11 +20,12 @@ public interface UserDAO extends CrudRepository<User, Integer> {
     Optional<User> findById(@NotNull Integer integer);
 
     @NotNull
-    @Query(value = "select * from jobext.user", nativeQuery = true)
+//    @Query(value = "select * from user", nativeQuery = true)
     List<User> findAll();
 
-    @Override
-    default void deleteById(@NotNull Integer integer) {
+    void deleteById(@NotNull Integer user_id);
 
-    }
+    @Query("SELECT u FROM User u WHERE u.email = :email")
+    User findByEmail(@NotNull String email);
+
 }

@@ -25,6 +25,6 @@ public interface ApplicationDAO extends CrudRepository<Application, Integer> {
     void deleteById(@NotNull Integer integer);
 
     @NotNull
-    @Query(value = "select * from jobext.application", nativeQuery = true)
+    @Query(value = "select * from application", nativeQuery = true)
     List<Application> findAll();
 }

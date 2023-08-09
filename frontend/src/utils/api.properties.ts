@@ -3,9 +3,12 @@ export const ApiProperties = {
     port: 8080,
     endpath: "/api",
     routes: {
-        getApplications: "/applications",
-        getApplicationById: "/applications/{id}",
-        addApplication: "/applications/add",
-        deleteApplication: "/applications/delete"
+        getApplications: "/api/applications/",
+        getApplicationById: "/api/applications/{id}",
+        addApplication: "/api/applications/add",
+        deleteApplication: "/api/applications/delete",
+
+        addUser: "/api/users/create",
+        loginUser: "/api/users/login"
     }
 }
