@@ -19,7 +19,7 @@ export interface User {
 }
 
 export interface ApiRequestData<T> {
-	data: T | T[];
+	entity: T;
 	token?: string
 }
 

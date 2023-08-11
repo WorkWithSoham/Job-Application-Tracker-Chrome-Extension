@@ -2,6 +2,7 @@ package backend.controller;
 
 import backend.dao.ApplicationDAO;
 import backend.entity.Application;
+import backend.properties.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,15 @@ import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(
-        originPatterns = {"*"},
+        origins = {"http://localhost:3000"},
+        exposedHeaders = {"authorization", "content-type"},
         methods = {
                 RequestMethod.GET,
                 RequestMethod.POST,
                 RequestMethod.DELETE,
                 RequestMethod.PUT,
-                RequestMethod.PATCH
+                RequestMethod.PATCH,
+                RequestMethod.OPTIONS
         })
 @RestController
 @RequestMapping("/api/applications")
@@ -73,7 +76,7 @@ public class ApplicationController {
         try {
             Application application = new Application(applicationJson);
             log.info("\nReceived a request to create application: \n{}", application.json());
-            applicationDAO.save(application);
+//            applicationDAO.save(application);
         } catch (Exception e) {
             log.error("Exception occurred while saving the new application: {}", e.toString());
             return new Response("msg", e.getMessage(), HttpStatus.BAD_REQUEST).send();
