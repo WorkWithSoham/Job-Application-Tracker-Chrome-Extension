@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, {AxiosInstance} from "axios";
 import {ApiProperties} from "./api.properties";
 import {ApiRequestData, ApiResponse, Application, User} from "./interfaces";
+import {Utils} from "./utils";
 
 enum METHOD {
     GET,
@@ -10,22 +11,20 @@ enum METHOD {
     PATCH,
 }
 
-let jwt = window.localStorage.getItem(`${process.env.TOKEN_KEY}`) ?? ""
+let jwt = window.localStorage.getItem(Utils.TOKEN_STORAGE_KEY) ?? ""
 
 export const ApiService = {
     // Application Service Functions
     getApplications: async () => {
-        const response: ApiResponse<Application> = await apiRequest<Application>(
+        return await apiRequest<Application>(
             ApiProperties.routes.getApplications,
             METHOD.GET
-        );
-
-        return response
+        )
     },
 
     addApplication: async (app: Application) => {
         const apiRequestData: ApiRequestData<Application> = {
-            data: app
+            entity: app
         }
         const response: ApiResponse<Application> = await apiRequest(ApiProperties.routes.addApplication, METHOD.POST, apiRequestData);
 
@@ -46,12 +45,12 @@ export const ApiService = {
     // User service functions
     addUser: async (user: User) => {
         const apiRequestData: ApiRequestData<User> = {
-            data: user
+            entity: user
         }
         const response: ApiResponse<User> = await apiRequest(ApiProperties.routes.addUser, METHOD.POST, apiRequestData);
         if (jwt === undefined || jwt === "") {
-            const newToken = response.data.data?.token ?? ""
-            window.localStorage.setItem(`${process.env.TOKEN_KEY}`, newToken)
+            const newToken = response.data?.data?.token ?? ""
+            window.localStorage.setItem(Utils.TOKEN_STORAGE_KEY, newToken)
             jwt = newToken;
         }
         return response
@@ -59,11 +58,11 @@ export const ApiService = {
 
     loginUser: async (user: User) => {
         const apiRequestData: ApiRequestData<User> = {
-            data: user,
+            entity: user,
             token: jwt
         }
         const response: ApiResponse<User> = await apiRequest(ApiProperties.routes.loginUser, METHOD.POST, apiRequestData)
-
+        console.log(response)
         return response.data
     }
 };
@@ -85,13 +84,15 @@ const apiRequest = async <T>(
     pathVar?: String
 ) => {
     let response: ApiResponse<T> = baseResponse;
-    const options = {
+
+    let instance: AxiosInstance = axios.create();
+    const httpOptions = {
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer${process.env.REACT_APP_API_KEY}`
+            Authorization: Utils.REACT_APP_API_KEY
         },
     };
-    var url = "";
+
+    let url: string = "";
 
     if (pathVar !== undefined) {
         url = constructURL(endpoint, pathVar);
@@ -99,12 +100,21 @@ const apiRequest = async <T>(
         url = constructURL(endpoint);
     }
 
-    if (method === METHOD.POST) {
-        response = await axios.post(url, params, options);
-    } else if (method === METHOD.GET) {
-        response = await axios.get(url);
-    } else if (method === METHOD.DELETE) {
-        response = await axios.delete(url);
+    try {
+        if (method === METHOD.POST) {
+            response = await instance.post(url, params, httpOptions);
+        } else if (method === METHOD.GET) {
+            response = await instance.get(url, httpOptions);
+        } else if (method === METHOD.DELETE) {
+            response = await instance.delete(url, httpOptions);
+        }
+    } catch (error: any) {
+        return {
+            error: {
+                code: error.code,
+                msg: error.msg
+            }
+        };
     }
 
     return response;

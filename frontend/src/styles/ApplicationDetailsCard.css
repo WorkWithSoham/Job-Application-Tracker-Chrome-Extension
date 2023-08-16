@@ -1,4 +1,4 @@
 .applicationDetailsCard {
     display: block;
-    height: 550px;
+    max-height: 384px;
 }

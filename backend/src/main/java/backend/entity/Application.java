@@ -3,6 +3,8 @@ package backend.entity;
 import backend.controller.JsonHandler;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.CurrentTimestamp;
 
 import java.util.Date;
 import java.util.Map;
@@ -35,7 +37,8 @@ public class Application {
     @Column(name = "jd")
     private String jd;
 
-    @Column(name = "app_date")
+    @Column(name = "app_date", nullable = false, updatable = false)
+    @CreationTimestamp
     private Date app_date;
 
     public Application() {

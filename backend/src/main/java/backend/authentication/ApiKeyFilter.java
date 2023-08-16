@@ -1,19 +1,18 @@
 package backend.authentication;
 
+import backend.properties.Constants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.*;
 import jakarta.servlet.FilterConfig;
-import java.io.IOException;
 
+import java.io.IOException;
 
 
 @Component
 public class ApiKeyFilter implements Filter {
-
-    private static final String EXPECTED_API_KEY = "12345";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
@@ -21,14 +20,18 @@ public class ApiKeyFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        String apiKey = request.getHeader("Authorization");
-
-        if (apiKey != null && apiKey.equals(EXPECTED_API_KEY)) {
-            chain.doFilter(request, response); // Allow the request to proceed
+        if ("OPTIONS".equals(request.getMethod())) {
+            chain.doFilter(request, response);
         } else {
-            response.getWriter().write("Unauthorized");
-            response.setContentType("text/plain");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            String apiKey = request.getHeader("Authorization");
+
+            if (apiKey != null && apiKey.equals(Constants.EXPECTED_API_KEY)) {
+                chain.doFilter(request, response); // Allow the request to proceed
+            } else {
+                response.getWriter().write("Unauthorized");
+                response.setContentType("text/plain");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
         }
     }
 
