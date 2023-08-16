@@ -92,6 +92,7 @@ public class User {
                 ", \n\tfull_name = '" + full_name + '\'' +
                 ", \n\tusername = '" + username + '\'' +
                 ", \n\temail = " + email +
+                ", \n\tpassword = " + password +
                 "\n}";
     }
 }

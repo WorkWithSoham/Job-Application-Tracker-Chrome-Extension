@@ -10,6 +10,7 @@ import {ApiService} from "../utils/api.service";
 
 import Paper from "@mui/material/Paper";
 import Alert from '@mui/material/Alert';
+import {Utils} from "../utils/utils";
 
 export const ApplicationForm = () => {
 
@@ -25,10 +26,13 @@ export const ApplicationForm = () => {
             remote: targetValue.remote.checked,
             status: targetValue.status.value as status,
             jd: targetValue.jd.value ?? "",
+            app_date: Utils.formatDate(new Date())
         };
-        await ApiService.addApplication(formData);
-        setShowAlert(true);
-        e.currentTarget.reset();
+        const res = await ApiService.addApplication(formData);
+        targetValue.reset();
+        if (res.data) {
+            setShowAlert(true);
+        }
     };
 
     return (
