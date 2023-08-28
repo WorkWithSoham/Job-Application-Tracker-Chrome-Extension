@@ -7,30 +7,49 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import {ApplicationList} from "./ApplicationList";
 import {ApplicationDetailsCard} from "./ApplicationDetailsCard";
-import {Application} from "../utils/interfaces";
+import {Application, status} from "../utils/interfaces";
 import {LoginForm} from "./LoginForm";
 import {Utils} from "../utils/utils";
 
 export default function App() {
-    const [defaultActiveKey, setDefaultActiveKey] = useState<string>("apps");
+    const [defaultActiveKey, setDefaultActiveKey] = useState<string>("create");
     const [showDetails, setShowDetails] = useState<Boolean>(false);
     const [application, setApplication] = useState<Application | undefined>();
+    const [defaultApplication, setDefaultApplication] = useState<Application>({
+        position: "",
+        location: "",
+        company: "",
+        status: status.APPLIED,
+        remote: false,
+        jd: ""
+    });
     const [loggedin, setLoggedin] = useState<boolean>(false);
 
     useEffect(() => {
         getLoginInfo();
 
-        // chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
-        //     const currentTabId = tabs[0].id ?? 0;
-        //     const currentTabUrl = tabs[0].url;
-        //     chrome.tabs.sendMessage(
-        //         currentTabId,
-        //         JSON.stringify({msg: "Job data requested", url: currentTabUrl}),
-        //         (response) => {
-        //             console.log("Message form Content Script: ", response);
-        //         }
-        //     );
-        // });
+        chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
+            const currentTabId = tabs[0].id ?? 0;
+            const currentTabUrl = tabs[0].url;
+
+            chrome.tabs.sendMessage(
+                currentTabId,
+                JSON.stringify({msg: "request", url: currentTabUrl}),
+                (res: Application) => {
+                    if (res.company) {
+                        const defaultApplication: Application = {
+                            position: res.position ?? "",
+                            location: res.location ?? "",
+                            company: res.company ?? "",
+                            status: status.APPLIED,
+                            remote: false,
+                            jd: currentTabUrl ?? ""
+                        }
+                        setDefaultApplication(defaultApplication)
+                    }
+                }
+            )
+        });
     }, []);
 
     const appListCallback = (app?: Application, tab?: string) => {
@@ -74,7 +93,7 @@ export default function App() {
                                 className="mx-3"
                             >
                                 <Tab eventKey="create" title="Create">
-                                    <ApplicationForm/>
+                                    <ApplicationForm defaultApplication={defaultApplication}/>
                                 </Tab>
                                 <Tab eventKey="apps" title="Applications">
                                     <ApplicationList callback={appListCallback}/>

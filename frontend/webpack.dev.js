@@ -4,7 +4,6 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	mode: "development",
-	devtool: "inline-source-map",
 	entry: {
 		popup: "./src/",
 		content_script: "./src/contentScript/helper.ts"

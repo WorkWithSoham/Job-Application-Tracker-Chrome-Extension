@@ -12,7 +12,7 @@ import Paper from "@mui/material/Paper";
 import Alert from '@mui/material/Alert';
 import {Utils} from "../utils/utils";
 
-export const ApplicationForm = () => {
+export const ApplicationForm = (props: { defaultApplication: Application }) => {
 
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -28,6 +28,7 @@ export const ApplicationForm = () => {
             jd: targetValue.jd.value ?? "",
             app_date: Utils.formatDate(new Date())
         };
+
         const res = await ApiService.addApplication(formData);
         targetValue.reset();
         if (res.data) {
@@ -56,7 +57,7 @@ export const ApplicationForm = () => {
                             {" "}
                             <h5>Position</h5>{" "}
                         </Form.Label>
-                        <Form.Control type="name" size="sm" required/>
+                        <Form.Control type="name" size="sm" defaultValue={props.defaultApplication.position} required/>
                     </Form.Group>
 
                     <Form.Group className="mb-1" controlId="company">
@@ -64,14 +65,14 @@ export const ApplicationForm = () => {
                             {" "}
                             <h5>Company</h5>
                         </Form.Label>
-                        <Form.Control type="name" size="sm" required/>
+                        <Form.Control type="name" size="sm" defaultValue={props.defaultApplication.company} required/>
                     </Form.Group>
 
                     <Form.Group className="mb-1" controlId="location">
                         <Form.Label>
                             <h5>Location</h5>
                         </Form.Label>
-                        <Form.Control type="name" size="sm"/>
+                        <Form.Control type="name" defaultValue={props.defaultApplication.location} size="sm"/>
                     </Form.Group>
 
                     <Form.Group className="mb-1" controlId="remote">
@@ -96,7 +97,7 @@ export const ApplicationForm = () => {
                         <Form.Label>
                             <h5>Job Link</h5>
                         </Form.Label>
-                        <Form.Control type="name" size="sm"/>
+                        <Form.Control type="name" defaultValue={props.defaultApplication.jd} size="sm"/>
                     </Form.Group>
 
                     <Button className="mx-auto mb-2" variant="success" type="submit">

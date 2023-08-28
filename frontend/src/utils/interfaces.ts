@@ -37,6 +37,12 @@ export interface ApiResponse<T> {
     }
 }
 
+export interface InternalMessage<T> {
+    msg: string;
+    url: string;
+    data?: T
+}
+
 export enum status {
     "APPLIED",
     "REJECT",
