@@ -32,11 +32,13 @@ export default function App() {
             const currentTabId = tabs[0].id ?? 0;
             const currentTabUrl = tabs[0].url;
 
-            chrome.tabs.sendMessage(
-                currentTabId,
-                JSON.stringify({msg: "request", url: currentTabUrl}),
-                (res: Application) => {
-                    if (res.company) {
+            const currentWebsite: string | null = parseURL(currentTabUrl!);
+
+            if (currentWebsite !== null) {
+                chrome.tabs.sendMessage(
+                    currentTabId,
+                    JSON.stringify({msg: "request", url: currentWebsite}),
+                    (res: Application) => {
                         const defaultApplication: Application = {
                             position: res.position ?? "",
                             location: res.location ?? "",
@@ -47,10 +49,29 @@ export default function App() {
                         }
                         setDefaultApplication(defaultApplication)
                     }
-                }
-            )
+                )
+            }
         });
     }, []);
+
+    const parseURL = (url: string) => {
+        try {
+            const parsedUrl = new URL(url);
+            const hostname = parsedUrl.hostname;
+
+            if (hostname.includes("linkedin")) {
+                return "linkedin";
+            } else if (hostname.includes("greenhouse")) {
+                return "greenhouse";
+            } else if (hostname.includes("lever")) {
+                return "lever";
+            } else {
+                return null;
+            }
+        } catch (error) {
+            return null;
+        }
+    }
 
     const appListCallback = (app?: Application, tab?: string) => {
         setShowDetails(!showDetails);
